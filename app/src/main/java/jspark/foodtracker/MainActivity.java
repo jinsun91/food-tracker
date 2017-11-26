@@ -15,8 +15,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ListView simpleList;
-    static final List<String> foodList = new ArrayList<>();
-    private BaseAdapter baseAdapter;
+    public static final List<String> foodList = new ArrayList<>();
+    private static BaseAdapter baseAdapter;
 
     @TargetApi(Build.VERSION_CODES.O)
     public MainActivity(){
@@ -24,22 +24,6 @@ public class MainActivity extends AppCompatActivity {
         //FoodItem foodItem = new FoodItem("Chicken Nugget", LocalDateTime.now());
         //addFoodItem(foodItem);
     }
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ArrayAdapter<String> baseAdapter = new ArrayAdapter<>(this, R.layout.activity_listview, R.id.textView, foodList);
-        simpleList.setAdapter(baseAdapter);
-        Button cameraButton = (Button) findViewById(R.id.cameraButton);
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), CameraActivity.class);
-                startActivity(i);
-            }
-        });
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void addFoodItem(FoodItem foodItem){
+    public static void addFoodItem(FoodItem foodItem){
         foodList.add(foodItem.toString());
         baseAdapter.notifyDataSetInvalidated();
         System.out.println("ADDED");
