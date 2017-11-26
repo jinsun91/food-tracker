@@ -9,14 +9,14 @@ import java.text.DateFormatSymbols;
 
 public class FoodItem {
     private String foodName;
-    private LocalDateTime cautionDate;
+    private String cautionDate;
     private boolean isExpiry;
     private File photo;
-    public FoodItem(String foodName, LocalDateTime cautionDate, File photo){
+    public FoodItem(String foodName, String cautionDate, File photo){
         this(foodName, cautionDate, photo, true);
     }
 
-    public FoodItem(String foodName, LocalDateTime cautionDate, File photo, boolean isExpiry){
+    public FoodItem(String foodName, String cautionDate, File photo, boolean isExpiry){
         this.foodName = foodName;
         this.cautionDate = cautionDate;
         this.isExpiry = isExpiry;
@@ -28,16 +28,14 @@ public class FoodItem {
     @TargetApi(Build.VERSION_CODES.O)
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder(foodName).append("\t\t");
+        StringBuilder sb = new StringBuilder(foodName).append("\t\t\t");
         if(isExpiry){
             sb.append("Expires: ");
         } else{
             sb.append("Best Before: ");
         }
 
-        sb.append(cautionDate.getDayOfMonth()).append(" ").
-                append(getMonth(cautionDate.getMonth().getValue())).append(" ").
-                append(cautionDate.getYear());
+        sb.append(cautionDate);
         return sb.toString();
     }
 

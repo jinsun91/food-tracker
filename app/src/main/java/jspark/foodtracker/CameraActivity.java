@@ -1,6 +1,7 @@
 package jspark.foodtracker;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
@@ -21,6 +22,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -48,7 +50,8 @@ import java.util.Date;
 import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
-    private static final String TAG = "AndroidCameraApi";
+    private static final String TAG = "CameraActivity";
+
     private Button takePictureButton;
     private TextureView textureView;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
@@ -142,7 +145,6 @@ public class CameraActivity extends AppCompatActivity {
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
     protected void stopBackgroundThread() {
         mBackgroundThread.quitSafely();
         try {
@@ -153,7 +155,6 @@ public class CameraActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
     protected void takePicture() {
         if(null == cameraDevice) {
             Log.e(TAG, "cameraDevice is null");
@@ -183,9 +184,11 @@ public class CameraActivity extends AppCompatActivity {
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
             final File file = getOutputMediaFile();
+            //addImageToGallery(file.getAbsolutePath(), this);
             //TODO: fix json
+            Log.d(TAG, "Absolute file path is :" + file.getAbsolutePath());
             Recognizer.recognizer(file);
-            MainActivity.addFoodItem(new FoodItem("name", LocalDateTime.now(), file));
+            MainActivity.addFoodItem(new FoodItem("name", "jan 1 2017", file));
 
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
@@ -356,7 +359,20 @@ public class CameraActivity extends AppCompatActivity {
             textureView.setSurfaceTextureListener(textureListener);
         }
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
+    public static void addImageToGallery(final String filePath, final Context context) {
+
+        ContentValues values = new ContentValues();
+
+        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.MediaColumns.DATA, filePath);
+
+        context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+    }
+
+
+    //@RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onPause() {
         Log.e(TAG, "onPause");

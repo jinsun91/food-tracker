@@ -3,6 +3,8 @@ package jspark.foodtracker;
 // This sample uses the Apache HTTP client library(org.apache.httpcomponents:httpclient:4.2.4)
 // and the org.json library (org.json:json:20170516).
 
+import android.os.Environment;
+
 import java.io.File;
 import java.net.URI;
 import org.apache.http.HttpEntity;
@@ -65,13 +67,20 @@ public class Recognizer
             request.setEntity(requestEntity);*/
 
             // Request body.
-            FileEntity requestEntity = new FileEntity(picture, "application/octet-stream");
+            File file2 = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), "CameraDemo");
+
+//            File file2 = new File("/Users/JinSun/Desktop/pic.jpg");
+
+            FileEntity requestEntity = new FileEntity(file2, "application/octet-stream");
             request.setEntity(requestEntity);
 
             // Execute the REST API call and get the response entity.
+            System.out.println("file not found here");
+
             HttpResponse response = httpClient.execute(request);
+
             HttpEntity entity = response.getEntity();
-            System.out.println("sad.....=================================");
             if (entity != null)
             {
                 // Format and display the JSON response.
