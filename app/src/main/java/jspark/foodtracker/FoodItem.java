@@ -3,6 +3,7 @@ package jspark.foodtracker;
 import android.annotation.TargetApi;
 import android.os.Build;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.text.DateFormatSymbols;
 
@@ -10,13 +11,12 @@ public class FoodItem {
     private String foodName;
     private LocalDateTime cautionDate;
     private boolean isExpiry;
-    //TODO: Pic representation
-
-    public FoodItem(String foodName, LocalDateTime cautionDate){
-        this(foodName, cautionDate, true);
+    private File photo;
+    public FoodItem(String foodName, LocalDateTime cautionDate, File photo){
+        this(foodName, cautionDate, photo, true);
     }
 
-    public FoodItem(String foodName, LocalDateTime cautionDate, boolean isExpiry){
+    public FoodItem(String foodName, LocalDateTime cautionDate, File photo, boolean isExpiry){
         this.foodName = foodName;
         this.cautionDate = cautionDate;
         this.isExpiry = isExpiry;
