@@ -31,6 +31,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -65,6 +66,12 @@ public class CameraActivity extends AppCompatActivity {
     private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
+
+    private ListView simpleList;
+    private List<FoodItem> foodItems = new ArrayList<>();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
