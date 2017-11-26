@@ -3,11 +3,13 @@ package jspark.foodtracker;
 // This sample uses the Apache HTTP client library(org.apache.httpcomponents:httpclient:4.2.4)
 // and the org.json library (org.json:json:20170516).
 
+import java.io.File;
 import java.net.URI;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -37,7 +39,8 @@ public class Recognizer
     public static final String uriBase = "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/ocr";
 
 
-    public void recognizer()
+
+    public static void recognizer(File picture)
     {
         HttpClient httpClient = new DefaultHttpClient();
 
@@ -55,14 +58,20 @@ public class Recognizer
             // Request headers.
             request.setHeader("Content-Type", "application/json");
             request.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
-            // Request body.
+
+          /*  // Request body.
             StringEntity requestEntity =
                     new StringEntity("{\"url\":\"https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Atomist_quote_from_Democritus.png/338px-Atomist_quote_from_Democritus.png\"}");
+            request.setEntity(requestEntity);*/
+
+            // Request body.
+            FileEntity requestEntity = new FileEntity(picture, "application/octet-stream");
             request.setEntity(requestEntity);
+
             // Execute the REST API call and get the response entity.
             HttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
-            System.out.println("sad.....");
+            System.out.println("sad.....=================================");
             if (entity != null)
             {
                 // Format and display the JSON response.

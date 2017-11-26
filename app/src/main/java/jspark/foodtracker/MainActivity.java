@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView simpleList;
     public static final List<String> foodList = new ArrayList<>();
     private static BaseAdapter baseAdapter;
+    public static Recognizer recognizer = new Recognizer();
 
     @TargetApi(Build.VERSION_CODES.O)
       
@@ -28,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        Recognizer recognizer = new Recognizer();
-        recognizer.recognizer();
       super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         simpleList = findViewById(R.id.simpleListView);

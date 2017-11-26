@@ -152,8 +152,8 @@ public class CameraActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        MainActivity.addFoodItem(new FoodItem("name", LocalDateTime.now(), file));
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     protected void takePicture() {
         if(null == cameraDevice) {
             Log.e(TAG, "cameraDevice is null");
@@ -183,6 +183,10 @@ public class CameraActivity extends AppCompatActivity {
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
             final File file = getOutputMediaFile();
+            //TODO: fix json
+            Recognizer.recognizer(file);
+            MainActivity.addFoodItem(new FoodItem("name", LocalDateTime.now(), file));
+
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
@@ -253,6 +257,11 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+      /*  return new File("DCIM" + File.separator + "Camera" + File.separator +
+                "IMG_"+ timeStamp + ".jpg");*/
+
+
         return new File(mediaStorageDir.getPath() + File.separator +
                 "IMG_"+ timeStamp + ".jpg");
     }
@@ -347,6 +356,7 @@ public class CameraActivity extends AppCompatActivity {
             textureView.setSurfaceTextureListener(textureListener);
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onPause() {
         Log.e(TAG, "onPause");
